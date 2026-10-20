@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آبان کلکتور | پیشرو در تولید اتصالات و کلکتورهای یکپارچه برنجی</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js r128 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: {
+                            950: '#020305',
+                            900: '#06080c',
+                            800: '#0d121a',
+                            700: '#161f2c'
+                        },
+                        petrol: {
+                            DEFAULT: '#0e86d4',
+                            dark: '#095c93',
+                            light: '#3aa3e8'
+                        },
+                        cyanNeon: {
+                            DEFAULT: '#00c8e6',
+                            glow: '#00f0ff'
+                        },
+                        brass: {
+                            light: '#f5d77f',
+                            DEFAULT: '#d4af37',
+                            machined: '#c59b27',
+                            dark: '#8a6611'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-obsidian: #06080c;
+            --cyan-neon: #00c8e6;
+            --petrol-blue: #0e86d4;
+            --brass-gold: #d4af37;
+        }
+
+        body {
+            background-color: #020305;
+            color: #f1f5f9;
+            font-family: 'Vazirmatn', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Blueprint CAD Background Grid */
+        .bg-blueprint {
+            background-color: #06080c;
+            background-image: 
+                linear-gradient(rgba(0, 200, 230, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 200, 230, 0.04) 1px, transparent 1px),
+                linear-gradient(rgba(14, 134, 212, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 134, 212, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+        }
+
+        /* Glassmorphism Industrial Panels */
+        .glass-panel {
+            background: rgba(13, 18, 26, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 200, 230, 0.16);
+        }
+
+        .glass-panel-brass {
+            background: linear-gradient(145deg, rgba(16, 22, 32, 0.85) 0%, rgba(8, 11, 16, 0.92) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.22);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel-brass:hover {
+            border-color: rgba(212, 175, 55, 0.65);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85), 
+                        0 0 25px -5px rgba(212, 175, 55, 0.25),
+                        inset 0 0 15px rgba(0, 200, 230, 0.08);
+        }
+
+        /* Metallic Text Gradients */
+        .text-brass-gradient {
+            background: linear-gradient(135deg, #fff3c4 0%, #d4af37 45%, #9b7415 80%, #f5d77f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-cyan-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #00c8e6 60%, #0e86d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glowing Cyan CTA Button */
+        .btn-cyan-glow {
+            background: linear-gradient(135deg, #00c8e6 0%, #0e86d4 100%);
+            box-shadow: 0 0 20px rgba(0, 200, 230, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-cyan-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 200, 230, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Industrial Chamfered Corners */
+        .chamfer-box {
+            clip-path: polygon(
+                0 10px, 10px 0,
+                calc(100% - 10px) 0, 100% 10px,
+                100% calc(100% - 10px), calc(100% - 10px) 100%,
+                10px 100%, 0 calc(100% - 10px)
+            );
+        }
+
+        /* 3D Perspective Tilt Card */
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .tilt-card-content {
+            transform: translateZ(20px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020305;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #161f2c;
+            border: 1px solid rgba(0, 200, 230, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0e86d4;
+        }
+
+        /* Pulse Ring Animation for Interactive 3D Hotspots */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        .hotspot-pulse::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 9999px;
+            border: 2px solid #00c8e6;
+            animation: pulse-ring 2s infinite;
+        }
+
+        /* Blueprint Scanline Effect */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scanline-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 12%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 200, 230, 0.06), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-blueprint selection:bg-cyanNeon selection:text-obsidian-950 antialiased">
+
+    <!-- ================= HEADER / NAVIGATION ================= -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-cyanNeon/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo (Aban Collector Geometric Teardrop + Typography) -->
+            <a href="#" class="flex items-center gap-3.5 group">
+                <div class="relative w-12 h-12 flex items-center justify-center rounded-xl bg-obsidian-900 border border-cyanNeon/30 group-hover:border-cyanNeon transition-colors shadow-[0_0_15px_rgba(0,200,230,0.15)]">
+                    <!-- Custom Geometric Teardrop SVG inspired by Aban Collector Logo -->
+                    <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="abanCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00c8e6" />
+                                <stop offset="100%" stop-color="#0e86d4" />
+                            </linearGradient>
+                            <linearGradient id="abanBrass" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f5d77f" />
+                                <stop offset="50%" stop-color="#d4af37" />
+                                <stop offset="100%" stop-color="#8a6611" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Outer Teardrop Geometric Lines -->
+                        <path d="M50 8 C50 8 85 46 85 68 C85 85.67 69.33 94 50 94 C30.67 94 15 85.67 15 68 C15 46 50 8 50 8 Z" stroke="url(#abanCyan)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Middle Parallel Drop Line -->
+                        <path d="M50 21 C50 21 75 51 75 67 C75 79.5 63.8 85.5 50 85.5 C36.2 85.5 25 79.5 25 67 C25 51 50 21 50 21 Z" stroke="#0e86d4" stroke-width="4" stroke-dasharray="120 12"/>
+                        <!-- Inner CNC Brass Core & Hex Nut Symbol -->
+                        <polygon points="50,46 63,53.5 63,68.5 50,76 37,68.5 37,53.5" fill="url(#abanBrass)" stroke="#fff3c4" stroke-width="1.5"/>
+                        <circle cx="50" cy="61" r="6" fill="#06080c" stroke="#00c8e6" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl sm:text-2xl font-black tracking-tight text-white">آبان <span class="text-cyanNeon">کلکتور</span></span>
+                        <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-brass/20 text-brass-light border border-brass/40">MS58 CNC</span>
+                    </div>
+                    <p class="text-xs text-slate-400">تولیدکننده تخصصی کلکتور و اتصالات برنجی</p>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#hero" class="hover:text-cyanNeon transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-cube text-cyanNeon/70 text-xs"></i> نمای سه‌بعدی
+                </a>
+                <a href="#products" class="hover:text-cyanNeon transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-gears text-brass text-xs"></i> محصولات برنجی
+                </a>
+                <a href="#pillars" class="hover:text-cyanNeon transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-cyanNeon/70 text-xs"></i> استانداردهای فنی
+                </a>
+                <a href="#b2b-order" class="hover:text-cyanNeon transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-invoice text-brass text-xs"></i> استعلام و پیش‌فاکتور
+                </a>
+                <a href="#footer" class="hover:text-cyanNeon transition-colors">تماس با کارخانه</a>
+            </nav>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="scrollToSection('b2b-order')" class="btn-cyan-glow text-obsidian-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>درخواست پیش‌فاکتور</span>
+                    <span id="nav-cart-badge" class="bg-obsidian-950 text-cyanNeon text-[11px] px-1.5 py-0.2 rounded-full hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= HERO SECTION WITH INTERACTIVE THREE.JS 3D MANIFOLD ================= -->
+    <section id="hero" class="relative min-h-screen pt-24 pb-12 lg:py-0 flex items-center overflow-hidden border-b border-cyanNeon/15">
+        <div class="scanline-overlay"></div>
+
+        <!-- Ambient Glow Orbs -->
+        <div class="
+            pointer-events-none absolute top-1/4 right-10 w-96 h-96 rounded-full 
+            bg-petrol/15 blur-[130px]
+        "></div>
+        <div class="
+            pointer-events-none absolute bottom-10 left-1/4 w-[28rem] h-[28rem] rounded-full 
+            bg-brass/10 blur-[140px]
+        "></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center relative z-10 my-auto pt-6 lg:pt-20">
+            
+            <!-- Right Column (RTL): Industrial Typography & CTAs -->
+            <div class="lg:col-span-6 space-y-6 text-right z-20">
+                
+                <!-- Status Badge -->
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass-panel border-cyanNeon/30 text-xs font-semibold text-cyanNeon">
+                    <span class="w-2 h-2 rounded-full bg-cyanNeon animate-ping"></span>
+                    <span>تراشکاری فوق‌دقیق CNC | شمش برنج استاندارد MS58</span>
+                </div>
+
+                <!-- Hero Main Title -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-[1.35] tracking-tight text-white">
+                    آبان کلکتور <span class="text-cyanNeon font-light">|</span> پیشرو در تولید
+                    <span class="text-brass-gradient block mt-1">اتصالات و کلکتورهای یکپارچه برنجی</span>
+                </h1>
+
+                <!-- Hero Subtitle -->
+                <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal border-r-2 border-cyanNeon pr-4">
+                    دقت میکرومتری تراش CNC، متریال صددرصد برنج و تضمین آب‌بندی فشارهای صنعتی. مهندسی‌شده برای سیستم‌های لوله‌کشی، گرمایش از کف و تأسیسات مکانیکی مدرن با طول عمر مادام‌العمر.
+                </p>
+
+                <!-- Technical Quick Telemetry Counters -->
+                <div class="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+                    <div class="glass-panel p-3 rounded-xl border-r-2 border-r-brass">
+                        <div class="text-xl sm:text-2xl font-black text-brass-light">۱۶ <span class="text-xs font-normal text-slate-400">Bar</span></div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">تست فشار هیدرواستاتیک</div>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border-r-2 border-r-cyanNeon">
+                        <div class="text-xl sm:text-2xl font-black text-cyanNeon">±۰.۰۱ <span class="text-xs font-normal text-slate-400">mm</span></div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">تلرانس تراش دنده CNC</div>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border-r-2 border-r-petrol">
+                        <div class="text-xl sm:text-2xl font-black text-white">MS58 <span class="text-xs font-normal text-brass">CuZn39Pb3</span></div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">آلیاژ برنج اکستروژن</div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-3">
+                    <a href="#products" class="btn-cyan-glow text-obsidian-950 font-extrabold px-7 py-4 rounded-xl text-sm sm:text-base flex items-center gap-3">
+                        <i class="fa-solid fa-book-open-reader text-lg"></i>
+                        <span>کاتالوگ فنی محصولات</span>
+                    </a>
+                    <button onclick="scrollToSection('b2b-order')" class="glass-panel hover:bg-slate-800/70 text-white border border-cyanNeon/40 hover:border-brass font-bold px-7 py-4 rounded-xl text-sm sm:text-base transition-all flex items-center gap-3">
+                        <i class="fa-solid fa-file-signature text-brass"></i>
+                        <span>درخواست پیش‌فاکتور</span>
+                    </button>
+                </div>
+
+                <!-- Direct Quality Assurance Note -->
+                <div class="flex items-center gap-5 text-xs text-slate-400 pt-2">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-check text-cyanNeon"></i> آب‌بندی با اورینگ EPDM بدون تفلون
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-check text-brass"></i> گارانتی تعویض بی‌قید و شرط
+                    </span>
+                </div>
+            </div>
+
+            <!-- Left Column (RTL): Interactive 3D WebGL Canvas & Engineering Controls -->
+            <div class="lg:col-span-6 relative h-[440px] sm:h-[520px] lg:h-[600px] w-full flex flex-col justify-between rounded-2xl glass-panel border border-cyanNeon/25 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)]">
+                
+                <!-- Top Telemetry HUD Bar inside 3D Viewport -->
+                <div class="relative z-20 flex items-center justify-between px-4 py-3 bg-obsidian-950/70 border-b border-cyanNeon/15 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="font-bold text-slate-200">موتور رندر سه‌بعدی: کلکتور ماژولار ۶ راهه آبان</span>
+                    </div>
+                    <div class="text-cyanNeon font-mono text-[11px] bg-cyanNeon/10 px-2.5 py-0.5 rounded border border-cyanNeon/30">
+                        CAD-REV: AB-6P-MS58
+                    </div>
+                </div>
+
+                <!-- Three.js Interactive Container -->
+                <div id="hero-3d-container" class="relative flex-1 w-full h-full cursor-grab active:cursor-grabbing select-none">
+                    <!-- Floating Instruction Pill -->
+                    <div class="pointer-events-none absolute top-3 right-3 z-20 bg-obsidian-950/80 border border-slate-700/70 px-3 py-1.5 rounded-lg text-[11px] text-slate-300 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-pointer text-cyanNeon animate-bounce"></i>
+                        <span>برای چرخش ۳۶۰ درجه، مدل را بکشید</span>
+                    </div>
+
+                    <!-- Live Component Part Readout Overlay -->
+                    <div id="hero-part-callout" class="pointer-events-none absolute bottom-3 right-3 left-3 sm:left-auto sm:max-w-xs z-20 glass-panel p-3 rounded-xl border-r-4 border-r-brass transition-all duration-300">
+                        <div class="text-[11px] text-cyanNeon font-bold" id="callout-tag">نمای مونتاژ کامل کلکتور</div>
+                        <div class="text-xs text-white font-semibold mt-0.5" id="callout-title">کلکتور ۶ راهه + شیر فلکه + درپوش و مهره‌ماسوره</div>
+                        <div class="text-[11px] text-slate-400 mt-1" id="callout-desc">شامل لوله اصلی شیاردار، ۶ خروجی ۱/۲ اینچ، مغزی شیر دسته قرمز و درپوش اورینگ‌دار.</div>
+                    </div>
+                </div>
+
+                <!-- Bottom Interactive 3D Engineering Toolbar -->
+                <div class="relative z-20 px-3 py-2.5 bg-obsidian-950/90 border-t border-cyanNeon/15 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <button onclick="toggleExplodedView()" id="btn-explode" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-obsidian-800 hover:bg-petrol/30 text-slate-200 border border-cyanNeon/30 transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center text-cyanNeon"></i>
+                            <span>نمای انفجاری (Exploded)</span>
+                        </button>
+                        <button onclick="toggleWireframeView()" id="btn-wireframe" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-obsidian-800 hover:bg-petrol/30 text-slate-200 border border-cyanNeon/30 transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-border-all text-brass"></i>
+                            <span>شبکه مهندسی (CAD)</span>
+                        </button>
+                        <button onclick="toggleValveOperation()" id="btn-valve" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-obsidian-800 hover:bg-red-500/20 text-slate-200 border border-red-500/40 transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate text-red-500"></i>
+                            <span>تست عملکرد شیر فلکه</span>
+                        </button>
+                    </div>
+                    <button onclick="resetHeroCamera()" class="px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white bg-obsidian-800 border border-slate-700" title="بازنشانی زاویه دوربین">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= KEY TECHNICAL TRUST PILLARS (اینفوگرافیک ویژگی‌ها) ================= -->
+    <section id="pillars" class="py-16 relative border-b border-cyanNeon/10 bg-obsidian-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-cyanNeon bg-cyanNeon/10 px-3 py-1 rounded-full border border-cyanNeon/25">
+                    استانداردهای ساخت آبان کلکتور
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
+                    چرا مهندسان تأسیسات <span class="text-brass-gradient">آبان کلکتور</span> را انتخاب می‌کنند؟
+                </h2>
+                <p class="text-sm text-slate-400 mt-2">
+                    تلفیق متالورژی دقیق شمش برنج و ماشین‌کاری اتوماتیک CNC برای حذف کامل نشتی و افت فشار در پروژه‌های ساختمانی و صنعتی
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Pillar 1 -->
+                <div class="glass-panel-brass p-6 rounded-2xl relative group overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-brass/15 border border-brass/40 flex items-center justify-center text-brass-light text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <span class="absolute top-4 left-4 text-xs font-mono text-slate-500">01 / ALLOY</span>
+                    <h3 class="text-base font-bold text-white mb-2">آلیاژ ۱۰۰٪ برنج مرغوب MS58</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        تولید شده از شمش و میلگرد برنج اکستروژن با ساختار مولکولی متراکم، بدنه کاملاً بدون حباب و پوکی با برگه آنالیز استاندارد متالورژی.
+                    </p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-brass">
+                        <span>استاندارد DIN EN 12164</span>
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="glass-panel-brass p-6 rounded-2xl relative group overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-cyanNeon/15 border border-cyanNeon/40 flex items-center justify-center text-cyanNeon text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="absolute top-4 left-4 text-xs font-mono text-slate-500">02 / CNC LATHE</span>
+                    <h3 class="text-base font-bold text-white mb-2">تراشکاری فوق‌دقیق CNC</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        ماشین‌کاری تمامی سطوح، شیارهای استپ‌دار و رزوه‌ها با دستگاه‌های CNC پیشرفته؛ دنده‌های فوق‌العاده روان، گام استاندارد و کاملاً بدون پلیسه.
+                    </p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-cyanNeon">
+                        <span>گام دنده استاندارد ISO 228</span>
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </div>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="glass-panel-brass p-6 rounded-2xl relative group overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-petrol/20 border border-petrol/50 flex items-center justify-center text-petrol-light text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </div>
+                    <span class="absolute top-4 left-4 text-xs font-mono text-slate-500">03 / 16 BAR</span>
+                    <h3 class="text-base font-bold text-white mb-2">تست هیدرواستاتیک ۱۶ بار</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        تمامی کلکتورها و شیرآلات پیش از بسته‌بندی تحت فشار هیدرواستاتیک ۱۶ بار و تغییرات دمایی شدید تا ۹۵ درجه سانتی‌گراد تست می‌شوند.
+                    </p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-petrol-light">
+                        <span>کنترل کیفیت ۱۰۰٪ (QC)</span>
+                        <i class="fa-solid fa-droplet-slash"></i>
+                    </div>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="glass-panel-brass p-6 rounded-2xl relative group overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+                    <span class="absolute top-4 left-4 text-xs font-mono text-slate-500">04 / WARRANTY</span>
+                    <h3 class="text-base font-bold text-white mb-2">تضمین مادام‌العمر آب‌بندی</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        طراحی کانال‌های دقیق اورینگ‌های EPDM و نیتریل و نشیمنگاه‌های کونیک که آب‌بندی صددرصد بدون نیاز به نوار تفلون اضافی را تضمین می‌کند.
+                    </p>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-emerald-400">
+                        <span>گارانتی اصالت متریال</span>
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PRODUCTS SHOWCASE SECTION (5 GENUINE ABAN HARDWARE ITEMS) ================= -->
+    <section id="products" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-xs font-bold text-brass bg-brass/10 px-3 py-1 rounded-full border border-brass/30 mb-3">
+                        <i class="fa-solid fa-cubes"></i>
+                        <span>تولیدات انحصاری کارخانه آبان کلکتور</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">
+                        ویترین محصولات و <span class="text-cyan-gradient">قطعات کلکتور برنجی</span>
+                    </h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-md">
+                    روی هر محصول حرکت کنید تا جزئیات متالورژی و تراش CNC را مشاهده نمایید. برای بررسی نقشه انفجاری و ابعاد، روی دکمه نقشه فنی کلیک کنید.
+                </p>
+            </div>
+
+            <!-- 5 Products Grid (Interactive 3D Tilt Cards) -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Cards dynamically rendered via JavaScript from exact product specs -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= INTERACTIVE B2B PRE-INVOICE & ORDER CALCULATOR ================= -->
+    <section id="b2b-order" class="py-20 relative border-t border-cyanNeon/15 bg-obsidian-900/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-cyanNeon/30 shadow-[0_0_50px_rgba(0,200,230,0.08)]">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    
+                    <!-- Right Side: Product Quantity Selector -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold text-cyanNeon uppercase tracking-wider bg-cyanNeon/10 px-3 py-1 rounded-full border border-cyanNeon/20">
+                                سامانه سفارشات عمده و پروژه‌ای (B2B)
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
+                                صدور آنی <span class="text-brass-gradient">لیست استعلام و پیش‌فاکتور</span>
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                                تعداد مورد نیاز از هر قطعه را مشخص کنید تا برگ استعلام فنی و پیش‌فاکتور رسمی کارخانه آبان کلکتور برای شما تولید شود.
+                            </p>
+                        </div>
+
+                        <!-- Interactive Item List -->
+                        <div id="b2b-items-container" class="space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Left Side: Customer Info & Instant Specification Summary -->
+                    <div class="lg:col-span-5 flex flex-col justify-between bg-obsidian-950/90 p-6 rounded-2xl border border-brass/30">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-file-invoice text-brass text-lg"></i>
+                                    <h3 class="font-bold text-white text-base">خلاصه درخواست پیش‌فاکتور</h3>
+                                </div>
+                                <span class="text-[11px] font-mono text-cyanNeon" id="invoice-code">INV-1405-AB</span>
+                            </div>
+
+                            <!-- Buyer Details Form -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                <div>
+                                    <label class="block text-[11px] text-slate-400 mb-1">نام خریدار / شرکت تأسیساتی</label>
+                                    <input type="text" id="buyer-name" placeholder="مثلاً: گروه مهندسی پارس" class="w-full bg-obsidian-900 border border-slate-700 focus:border-cyanNeon rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] text-slate-400 mb-1">شماره تماس / واتساپ</label>
+                                    <input type="tel" id="buyer-phone" placeholder="0912XXXXXXX" dir="ltr" class="w-full bg-obsidian-900 border border-slate-700 focus:border-cyanNeon rounded-lg px-3 py-2 text-xs text-white text-right outline-none transition-colors">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">شهر مقصد ارسال بار (باربری / تیپاکس)</label>
+                                <input type="text" id="buyer-city" placeholder="تهران، مشهد، اصفهان، تبریز..." class="w-full bg-obsidian-900 border border-slate-700 focus:border-cyanNeon rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors">
+                            </div>
+
+                            <!-- Selected Items Summary Box -->
+                            <div class="bg-obsidian-900/90 rounded-xl p-3.5 border border-slate-800 max-h-48 overflow-y-auto space-y-2" id="invoice-summary-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Totals & Submit Actions -->
+                        <div class="pt-4 mt-4 border-t border-slate-800 space-y-3">
+                            <div class="flex items-center justify-between text-xs text-slate-300">
+                                <span>مجموع کل قطعات انتخابی:</span>
+                                <span class="font-black text-base text-brass-light"><span id="total-pieces-count">0</span> عدد</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-slate-400">
+                                <span>تخمین وزن خالص شمش برنج:</span>
+                                <span class="font-mono text-cyanNeon"><span id="total-brass-weight">0.00</span> کیلوگرم</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                                <button onclick="generateOfficialPreInvoice()" class="btn-cyan-glow text-obsidian-950 font-black py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-print"></i>
+                                    <span>مشاهده و کپی پیش‌فاکتور</span>
+                                </button>
+                                <button onclick="resetB2BCart()" class="bg-obsidian-800 hover:bg-slate-800 text-slate-300 border border-slate-700 font-semibold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-colors">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    <span>پاکسازی لیست</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= FOOTER & FACTORY IDENTITY ================= -->
+    <footer id="footer" class="relative bg-obsidian-950 border-t border-cyanNeon/20 pt-16 pb-10 overflow-hidden">
+        
+        <!-- Giant Geometric Teardrop Watermark SVG in Background -->
+        <div class="pointer-events-none absolute -left-20 -bottom-24 opacity-[0.04] w-[480px] h-[480px]">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M50 4 C50 4 90 46 90 70 C90 89 72 97 50 97 C28 97 10 89 10 70 C10 46 50 4 50 4 Z" stroke="#00c8e6" stroke-width="3"/>
+                <path d="M50 16 C50 16 80 50 80 69 C80 83 66 90 50 90 C34 90 20 83 20 69 C20 50 50 16 50 16 Z" stroke="#0e86d4" stroke-width="2.5"/>
+                <path d="M50 28 C50 28 70 54 70 68 C70 78 61 83 50 83 C39 83 30 78 30 68 C30 54 50 28 50 28 Z" stroke="#d4af37" stroke-width="2"/>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80">
+                
+                <!-- Brand Identity Col -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-obsidian-900 border border-cyanNeon/40 flex items-center justify-center">
+                            <svg class="w-7 h-7" viewBox="0 0 100 100" fill="none">
+                                <path d="M50 8 C50 8 85 46 85 68 C85 85.67 69.33 94 50 94 C30.67 94 15 85.67 15 68 C15 46 50 8 50 8 Z" stroke="#00c8e6" stroke-width="6"/>
+                                <polygon points="50,46 63,53.5 63,68.5 50,76 37,68.5 37,53.5" fill="#d4af37"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-black text-white">آبان <span class="text-cyanNeon">کلکتور</span></span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md">
+                        واحد صنعتی آبان کلکتور، طراح و تولیدکننده تخصصی کلکتورهای ماژولار برنجی، مغزی شیر فلکه، مهره‌ماسوره، روپیچ و درپوش‌های اورینگ‌دار با بهره‌گیری از خطوط اتوماتیک تراش CNC و متریال استاندارد MS58.
+                    </p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <span class="px-3 py-1 rounded-md bg-obsidian-900 border border-slate-800 text-[11px] text-brass-light font-mono">ISO 9001:2015</span>
+                        <span class="px-3 py-1 rounded-md bg-obsidian-900 border border-slate-800 text-[11px] text-cyanNeon font-mono">MS58 BRASS</span>
+                        <span class="px-3 py-1 rounded-md bg-obsidian-900 border border-slate-800 text-[11px] text-slate-300 font-mono">16 BAR TESTED</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="lg:col-span-3 space-y-3">
+                    <h4 class="text-sm font-bold text-white border-r-2 border-cyanNeon pr-2.5">دسترسی سریع محصولات</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#products" onclick="openCadModal(0)" class="hover:text-cyanNeon transition-colors">کلکتور ماژولار ۶ راهه برنجی</a></li>
+                        <li><a href="#products" onclick="openCadModal(1)" class="hover:text-cyanNeon transition-colors">مغزی شیر فلکه کلکتور دسته قرمز</a></li>
+                        <li><a href="#products" onclick="openCadModal(2)" class="hover:text-cyanNeon transition-colors">درپوش کلکتور برنجی اورینگ‌دار</a></li>
+                        <li><a href="#products" onclick="openCadModal(3)" class="hover:text-cyanNeon transition-colors">مغزی روپیچ دوطرفه برنجی</a></li>
+                        <li><a href="#products" onclick="openCadModal(4)" class="hover:text-cyanNeon transition-colors">مهره‌ماسوره برنجی ترکیبی</a></li>
+                    </ul>
+                </div>
+
+                <!-- Factory & B2B Contact Panel -->
+                <div class="lg:col-span-4 space-y-3">
+                    <h4 class="text-sm font-bold text-white border-r-2 border-brass pr-2.5">دفتر فروش و کارخانه</h4>
+                    <div class="space-y-2.5 text-xs text-slate-300">
+                        <div class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-industry text-cyanNeon mt-1"></i>
+                            <span>کارخانه: شهرک صنعتی، فاز فلزتراشی و ماشین‌کاری دقیق CNC، واحد تولیدی آبان کلکتور</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone-volume text-brass"></i>
+                            <span dir="ltr" class="font-mono text-sm text-white">021 - 88 45 92 00 | 051 - 35 41 88 00</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-cyanNeon"></i>
+                            <span class="font-mono">sales@abancollector.ir</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Copyright Bottom -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© ۱۴۰۵ تمامی حقوق مادی و معنوی برای برند صنعتی <span class="text-slate-300 font-bold">آبان کلکتور (Aban Collector)</span> محفوظ است.</p>
+                <p class="font-mono text-[11px]">DESIGNED WITH PRECISION CNC CAD & WEBGL 3D</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= MODAL: INTERACTIVE CAD BLUEPRINT & TECHNICAL DATA SHEET ================= -->
+    <div id="cad-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md">
+        <div class="glass-panel border border-cyanNeon/40 rounded-2xl max-w-3xl w-full overflow-hidden shadow-[0_0_60px_rgba(0,200,230,0.2)] animate-fadeIn">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 bg-obsidian-950 border-b border-cyanNeon/20">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-compass-drafting text-cyanNeon text-lg"></i>
+                    <div>
+                        <h3 id="modal-title" class="text-base sm:text-lg font-black text-white">نقشه فنی و شناسنامه مهندسی قطعه</h3>
+                        <p id="modal-code" class="text-[11px] font-mono text-brass">PART NO: AB-101</p>
+                    </div>
+                </div>
+                <button onclick="closeCadModal()" class="w-8 h-8 rounded-lg bg-obsidian-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                
+                <!-- Blueprint Technical Drawing Viewport (SVG CAD) -->
+                <div class="md:col-span-6 bg-blueprint rounded-xl p-4 border border-cyanNeon/30 flex flex-col items-center justify-center min-h-[260px] relative">
+                    <div class="absolute top-2 right-2 text-[10px] font-mono text-cyanNeon/80">SCALE: 1:1 | UNIT: MM</div>
+                    <div id="modal-blueprint-svg" class="w-full h-56 flex items-center justify-center">
+                        <!-- Custom Technical Dimensioned SVG Injected by JS -->
+                    </div>
+                    <div class="w-full flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-cyanNeon/20 pt-2 mt-2">
+                        <span>TOLERANCE: ISO 2768-m</span>
+                        <span>MATERIAL: CW617N / MS58</span>
+                    </div>
+                </div>
+
+                <!-- Technical Table & Action -->
+                <div class="md:col-span-6 space-y-4">
+                    <div class="text-xs text-slate-300 leading-relaxed" id="modal-desc"></div>
+                    
+                    <div class="bg-obsidian-950/90 rounded-xl p-3.5 border border-slate-800 space-y-2 text-xs" id="modal-specs-table">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="flex items-center gap-3 pt-2">
+                        <button id="modal-add-b2b" class="flex-1 btn-cyan-glow text-obsidian-950 font-extrabold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>افزودن به پیش‌فاکتور</span>
+                        </button>
+                        <button onclick="closeCadModal()" class="px-4 py-3 rounded-xl bg-obsidian-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700">
+                            بستن
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: GENERATED PRE-INVOICE / COPY CLIPBOARD ================= -->
+    <div id="invoice-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md">
+        <div class="glass-panel border border-brass/50 rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 bg-obsidian-950 border-b border-brass/20">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-check text-brass text-lg"></i>
+                    <h3 class="text-base font-black text-white">برگ استعلام رسمی آبان کلکتور</h3>
+                </div>
+                <button onclick="closeInvoiceModal()" class="w-8 h-8 rounded-lg bg-obsidian-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <textarea id="invoice-text-output" readonly class="w-full h-64 bg-obsidian-950 border border-slate-800 rounded-xl p-4 text-xs text-slate-200 font-mono leading-relaxed outline-none resize-none"></textarea>
+                <div id="copy-toast" class="hidden text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2.5 text-center font-semibold">
+                    <i class="fa-solid fa-check ml-1"></i> متن پیش‌فاکتور با موفقیت در حافظه کپی شد! آماده ارسال به واحد فروش.
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="copyInvoiceToClipboard()" class="flex-1 btn-cyan-glow text-obsidian-950 font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>کپی متن پیش‌فاکتور برای ارسال</span>
+                    </button>
+                    <button onclick="closeInvoiceModal()" class="px-5 py-3 rounded-xl bg-obsidian-800 text-slate-300 text-xs font-bold border border-slate-700">
+                        بستن
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= APPLICATION JAVASCRIPT ================= -->
+    <script>
+        /* =========================================================================
+           1. EXACT ABAN COLLECTOR PRODUCT DATA (5 GENUINE BRASS ITEMS)
+           ========================================================================= */
+        const abanProducts = [
+            {
+                id: 0,
+                code: "AB-M6-100",
+                name: "کلکتور ماژولار ۶ راهه برنجی",
+                enName: "Modular 6-Port Brass Manifold",
+                weightKg: 1.45,
+                tags: ["برنج اکستروژن MS58", "۶ انشعاب ۱/۲ اینچ", "تست ۱۶ بار", "کم‌افت فشار"],
+                specsText: "برنج اکستروژن MS58 | ۶ انشعاب رزوه‌ای ۱/۲ اینچ | طراحی هیدرولیک کم‌افت فشار | تحمل فشار تست ۱۶ بار.",
+                dimensions: { length: "310 mm", threadIn: "G 1\" Inch", threadOut: "6 × G 1/2\" Inch", wallThickness: "4.2 mm" },
+                svgRender: `
+                    <svg viewBox="0 0 360 180" class="w-full h-44 drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]">
+                        <defs>
+                            <linearGradient id="brassBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#fff3c4"/>
+                                <stop offset="25%" stop-color="#d4af37"/>
+                                <stop offset="60%" stop-color="#9b7415"/>
+                                <stop offset="85%" stop-color="#e5c158"/>
+                                <stop offset="100%" stop-color="#5c4206"/>
+                            </linearGradient>
+                            <linearGradient id="redWheel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff4d4d"/>
+                                <stop offset="50%" stop-color="#cc0000"/>
+                                <stop offset="100%" stop-color="#660000"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- End Cap Left with Black O-Ring -->
+                        <rect x="22" y="76" width="12" height="36" rx="2" fill="url(#brassBody)" stroke="#f5d77f" stroke-width="0.7"/>
+                        <rect x="34" y="79" width="5" height="30" rx="2" fill="#111" stroke="#00c8e6" stroke-width="0.6"/>
+                        <!-- Main Grooved Cylindrical Manifold Pipe -->
+                        <rect x="39" y="72" width="265" height="44" rx="3" fill="url(#brassBody)" stroke="#ffeb99" stroke-width="0.8"/>
+                        <!-- CNC Lathed Step Grooves -->
+                        <line x1="55" y1="72" x2="55" y2="116" stroke="#5c4206" stroke-width="2.5"/>
+                        <line x1="95" y1="72" x2="95" y2="116" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="135" y1="72" x2="135" y2="116" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="175" y1="72" x2="175" y2="116" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="215" y1="72" x2="215" y2="116" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="255" y1="72" x2="255" y2="116" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="288" y1="72" x2="288" y2="116" stroke="#5c4206" stroke-width="2.5"/>
+                        <!-- 6 Bottom Threaded Branch Ports -->
+                        <g>
+                            <rect x="65" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                            <rect x="105" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                            <rect x="145" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                            <rect x="185" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                            <rect x="225" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                            <rect x="265" y="116" width="20" height="26" fill="url(#brassBody)"/>
+                        </g>
+                        <!-- Top Mounted Red Handwheel Valve on Port 1 & 2 -->
+                        <g>
+                            <rect x="67" y="54" width="16" height="18" fill="url(#brassBody)"/>
+                            <rect x="57" y="38" width="36" height="12" rx="4" fill="url(#redWheel)" stroke="#ff9999" stroke-width="0.6"/>
+                            <rect x="107" y="54" width="16" height="18" fill="url(#brassBody)"/>
+                            <rect x="97" y="38" width="36" height="12" rx="4" fill="url(#redWheel)" stroke="#ff9999" stroke-width="0.6"/>
+                        </g>
+                        <!-- Right Union Nut -->
+                        <polygon points="304,66 326,66 330,94 326,122 304,122" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="0.8"/>
+                    </svg>
+                `,
+                cadSvg: `
+                    <svg viewBox="0 0 360 180" class="w-full h-full">
+                        <rect x="40" y="65" width="280" height="44" fill="none" stroke="#00c8e6" stroke-width="1.5"/>
+                        <line x1="25" y1="87" x2="335" y2="87" stroke="#0e86d4" stroke-width="1" stroke-dasharray="6 3"/>
+                        <!-- 6 Ports CAD -->
+                        <rect x="65" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <rect x="105" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <rect x="145" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <rect x="185" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <rect x="225" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <rect x="265" y="109" width="20" height="25" fill="none" stroke="#d4af37" stroke-width="1.2"/>
+                        <!-- Dimension Lines -->
+                        <line x1="40" y1="35" x2="320" y2="35" stroke="#00c8e6" stroke-width="1"/>
+                        <line x1="40" y1="30" x2="40" y2="62" stroke="#00c8e6" stroke-width="0.8"/>
+                        <line x1="320" y1="30" x2="320" y2="62" stroke="#00c8e6" stroke-width="0.8"/>
+                        <text x="180" y="28" fill="#00c8e6" font-size="10" text-anchor="middle" font-family="monospace">L = 310 mm (6 PORTS × G1/2")</text>
+                    </svg>
+                `
+            },
+            {
+                id: 1,
+                code: "AB-VH-200",
+                name: "مغزی شیر فلکه کلکتور با دستگیره قرمز",
+                enName: "Brass Collector Valve Headwork",
+                weightKg: 0.24,
+                tags: ["شفت برنجی CNC", "هندل پلی‌آمید قرمز", "دو اورینگ نیتریل", "رزوه ۱/۲ استاندارد"],
+                specsText: "شفت و بدنه تمام برنجی تراش CNC | هندل پلی‌آمید قرمز فابریک | دو اورینگ آب‌بندی نیتریل | رزوه استاندارد ۱/۲.",
+                dimensions: { length: "64 mm", threadIn: "G 1/2\" BSP", threadOut: "Nitrile Dual Ring", wallThickness: "Hex 19 mm" },
+                svgRender: `
+                    <svg viewBox="0 0 240 180" class="w-full h-44 drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]">
+                        <!-- Red Multi-lobe Handwheel -->
+                        <rect x="65" y="24" width="110" height="26" rx="7" fill="url(#redWheel)" stroke="#ff9999" stroke-width="1"/>
+                        <rect x="82" y="24" width="14" height="26" rx="3" fill="#990000"/>
+                        <rect x="113" y="24" width="14" height="26" rx="3" fill="#990000"/>
+                        <rect x="144" y="24" width="14" height="26" rx="3" fill="#990000"/>
+                        <!-- Top Brass Cap Screw -->
+                        <rect x="112" y="17" width="16" height="7" rx="2" fill="url(#brassBody)"/>
+                        <!-- Brass Spindle & Hex Nut Body -->
+                        <rect x="108" y="50" width="24" height="18" fill="url(#brassBody)"/>
+                        <polygon points="92,68 148,68 152,92 88,92" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="0.8"/>
+                        <!-- Machined Thread & Dual Black Nitrile O-rings -->
+                        <rect x="98" y="92" width="44" height="32" fill="url(#brassBody)" stroke="#5c4206" stroke-dasharray="3 2"/>
+                        <rect x="96" y="124" width="48" height="7" rx="3" fill="#111" stroke="#00c8e6" stroke-width="0.7"/>
+                        <rect x="96" y="135" width="48" height="7" rx="3" fill="#111" stroke="#00c8e6" stroke-width="0.7"/>
+                        <!-- Bottom Sealing Disc -->
+                        <rect x="102" y="143" width="36" height="16" rx="2" fill="url(#brassBody)"/>
+                    </svg>
+                `,
+                cadSvg: `
+                    <svg viewBox="0 0 240 180" class="w-full h-full">
+                        <rect x="70" y="25" width="100" height="24" rx="4" fill="none" stroke="#ff4d4d" stroke-width="1.5"/>
+                        <rect x="95" y="65" width="50" height="24" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+                        <rect x="102" y="89" width="36" height="55" fill="none" stroke="#00c8e6" stroke-width="1.3"/>
+                        <line x1="120" y1="12" x2="120" y2="165" stroke="#0e86d4" stroke-dasharray="5 3" stroke-width="1"/>
+                        <text x="185" y="80" fill="#d4af37" font-size="9" font-family="monospace">HEX 19mm</text>
+                        <text x="185" y="120" fill="#00c8e6" font-size="9" font-family="monospace">2x NBR O-RING</text>
+                    </svg>
+                `
+            },
+            {
+                id: 2,
+                code: "AB-EC-300",
+                name: "درپوش کلکتور برنجی اورینگ‌دار",
+                enName: "Brass Manifold End Cap with O-Ring",
+                weightKg: 0.14,
+                tags: ["آچارخور شش‌گوش", "اورینگ EPDM", "بدون نیاز به تفلون", "ضدزنگ"],
+                specsText: "آچارخور شش‌گوش دقیق | رزوه نری با کانال نگه‌دارنده اورینگ EPDM | ضدزنگ و آب‌بندی صددرصد بدون نوار تفلون.",
+                dimensions: { length: "28 mm", threadIn: "G 1\" Male", threadOut: "EPDM Groove", wallThickness: "Hex 36 mm" },
+                svgRender: `
+                    <svg viewBox="0 0 240 180" class="w-full h-44 drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]">
+                        <!-- Heavy Hex Cap Head -->
+                        <polygon points="75,45 165,45 175,82 65,82" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="1"/>
+                        <line x1="98" y1="45" x2="98" y2="82" stroke="#8a6611" stroke-width="1.5"/>
+                        <line x1="142" y1="45" x2="142" y2="82" stroke="#8a6611" stroke-width="1.5"/>
+                        <!-- Distinct Black EPDM O-Ring in Channel -->
+                        <rect x="76" y="82" width="88" height="14" rx="7" fill="#0f141c" stroke="#00c8e6" stroke-width="1.2"/>
+                        <!-- Precision Male Thread Section -->
+                        <polygon points="82,96 158,96 152,142 88,142" fill="url(#brassBody)" stroke="#5c4206" stroke-width="1.5"/>
+                        <line x1="84" y1="106" x2="156" y2="106" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="85" y1="116" x2="155" y2="116" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="86" y1="126" x2="154" y2="126" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="87" y1="136" x2="153" y2="136" stroke="#fff3c4" stroke-width="1.2"/>
+                    </svg>
+                `,
+                cadSvg: `
+                    <svg viewBox="0 0 240 180" class="w-full h-full">
+                        <rect x="70" y="45" width="100" height="35" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+                        <circle cx="76" cy="88" r="6" fill="#00c8e6"/>
+                        <circle cx="164" cy="88" r="6" fill="#00c8e6"/>
+                        <rect x="82" y="94" width="76" height="45" fill="none" stroke="#00c8e6" stroke-width="1.4"/>
+                        <text x="120" y="34" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace">HEX 36mm CNC</text>
+                        <text x="120" y="158" fill="#00c8e6" font-size="10" text-anchor="middle" font-family="monospace">EPDM SEAL CHANNEL</text>
+                    </svg>
+                `
+            },
+            {
+                id: 3,
+                code: "AB-DN-400",
+                name: "مغزی روپیچ دوطرفه برنجی",
+                enName: "Dual Male Thread Brass Nipple",
+                weightKg: 0.11,
+                tags: ["دو سر دنده نر", "تراش بدون پلیسه", "شش‌گوش میانی", "مقاوم فشار بالا"],
+                specsText: "دو سر دنده نر تراش‌خورده بدون پلیسه | بخش میانی شش‌گوش ماشین‌کاری‌شده | اتصال مقاوم فشار بالا.",
+                dimensions: { length: "42 mm", threadIn: "G 1/2\" Male", threadOut: "G 1/2\" Male", wallThickness: "3.5 mm" },
+                svgRender: `
+                    <svg viewBox="0 0 240 180" class="w-full h-44 drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]">
+                        <!-- Top Male Thread -->
+                        <polygon points="88,28 152,28 158,68 82,68" fill="url(#brassBody)" stroke="#5c4206" stroke-width="1"/>
+                        <line x1="86" y1="38" x2="154" y2="38" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="85" y1="48" x2="155" y2="48" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="84" y1="58" x2="156" y2="58" stroke="#fff3c4" stroke-width="1.2"/>
+                        <!-- Center Sharp Hex Nut -->
+                        <polygon points="72,68 168,68 172,108 68,108" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="100" y1="68" x2="100" y2="108" stroke="#8a6611" stroke-width="1.5"/>
+                        <line x1="140" y1="68" x2="140" y2="108" stroke="#8a6611" stroke-width="1.5"/>
+                        <!-- Bottom Male Thread -->
+                        <polygon points="82,108 158,108 152,148 88,148" fill="url(#brassBody)" stroke="#5c4206" stroke-width="1"/>
+                        <line x1="84" y1="118" x2="156" y2="118" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="85" y1="128" x2="155" y2="128" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="86" y1="138" x2="154" y2="138" stroke="#fff3c4" stroke-width="1.2"/>
+                    </svg>
+                `,
+                cadSvg: `
+                    <svg viewBox="0 0 240 180" class="w-full h-full">
+                        <rect x="85" y="30" width="70" height="40" fill="none" stroke="#00c8e6" stroke-width="1.4"/>
+                        <rect x="70" y="70" width="100" height="36" fill="none" stroke="#d4af37" stroke-width="1.6"/>
+                        <rect x="85" y="106" width="70" height="40" fill="none" stroke="#00c8e6" stroke-width="1.4"/>
+                        <line x1="120" y1="15" x2="120" y2="165" stroke="#0e86d4" stroke-dasharray="4 3"/>
+                        <text x="120" y="24" fill="#00c8e6" font-size="9" text-anchor="middle" font-family="monospace">DUAL MALE G1/2" - G3/4"</text>
+                    </svg>
+                `
+            },
+            {
+                id: 4,
+                code: "AB-UF-500",
+                name: "مهره‌ماسوره برنجی ترکیبی",
+                enName: "Brass Union Fitting",
+                weightKg: 0.29,
+                tags: ["فورج سنگین", "نشیمنگاه کونیک", "ضد آب‌دهی", "رزوه داخلی دقیق"],
+                specsText: "مهره برنجی فورج سنگین با رزوه داخلی | نشیمنگاه کونیک ضد آب‌دهی | انطباق استاندارد لوله‌های تأسیساتی.",
+                dimensions: { length: "48 mm", threadIn: "G 1\" Female Nut", threadOut: "Conical Seat", wallThickness: "5.0 mm Forged" },
+                svgRender: `
+                    <svg viewBox="0 0 240 180" class="w-full h-44 drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]">
+                        <!-- Heavy Forged Octagonal/Hex Union Nut -->
+                        <polygon points="62,48 178,48 186,102 54,102" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="1.2"/>
+                        <line x1="92" y1="48" x2="92" y2="102" stroke="#5c4206" stroke-width="2"/>
+                        <line x1="148" y1="48" x2="148" y2="102" stroke="#5c4206" stroke-width="2"/>
+                        <!-- Conical Seated Tailpiece & O-ring -->
+                        <rect x="80" y="102" width="80" height="10" rx="4" fill="#111" stroke="#00c8e6" stroke-width="1"/>
+                        <polygon points="84,112 156,112 146,150 94,150" fill="url(#brassBody)" stroke="#fff3c4" stroke-width="0.9"/>
+                        <!-- Top Chamfered Bore Lip -->
+                        <ellipse cx="120" cy="48" rx="46" ry="8" fill="#5c4206" stroke="#ffeb99" stroke-width="1"/>
+                    </svg>
+                `,
+                cadSvg: `
+                    <svg viewBox="0 0 240 180" class="w-full h-full">
+                        <rect x="60" y="45" width="120" height="55" fill="none" stroke="#d4af37" stroke-width="1.6"/>
+                        <polygon points="82,100 158,100 145,148 95,148" fill="none" stroke="#00c8e6" stroke-width="1.4"/>
+                        <line x1="82" y1="100" x2="158" y2="100" stroke="#ff4d4d" stroke-width="2"/>
+                        <text x="120" y="34" fill="#d4af37" font-size="9" text-anchor="middle" font-family="monospace">FORGED UNION NUT G1"</text>
+                        <text x="120" y="164" fill="#00c8e6" font-size="9" text-anchor="middle" font-family="monospace">CONICAL ANTI-LEAK SEAT</text>
+                    </svg>
+                `
+            }
+        ];
+
+        // State for B2B Order Calculator
+        const b2bQuantities = { 0: 10, 1: 60, 2: 10, 3: 20, 4: 10 };
+
+        /* =========================================================================
+           2. RENDER PRODUCT SHOWCASE CARDS & B2B CALCULATOR
+           ========================================================================= */
+        function renderProductsShowcase() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = abanProducts.map((item, idx) => `
+                <div class="glass-panel-brass rounded-2xl p-6 flex flex-col justify-between relative group tilt-card"
+                     onmousemove="handleCardTilt(event, this)"
+                     onmouseleave="resetCardTilt(this)">
+                    
+                    <div>
+                        <!-- Top Meta Header -->
+                        <div class="flex items-center justify-between text-xs mb-3">
+                            <span class="font-mono text-cyanNeon bg-cyanNeon/10 px-2.5 py-1 rounded border border-cyanNeon/30">
+                                ${item.code}
+                            </span>
+                            <span class="text-brass-light font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-weight-hanging text-[11px]"></i> ${item.weightKg} kg
+                            </span>
+                        </div>
+
+                        <!-- Interactive Visual Render Box -->
+                        <div class="relative rounded-xl bg-obsidian-950/90 border border-slate-800 group-hover:border-brass/40 p-4 my-2 flex items-center justify-center overflow-hidden transition-colors">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-petrol/10 via-transparent to-brass/10 opacity-60"></div>
+                            <div class="relative z-10 w-full transform group-hover:scale-105 transition-transform duration-500">
+                                ${item.svgRender}
+                            </div>
+                        </div>
+
+                        <!-- Product Title -->
+                        <h3 class="text-lg font-black text-white mt-4 group-hover:text-brass-light transition-colors">
+                            ${item.name}
+                        </h3>
+                        <p class="text-[11px] font-mono text-slate-500 mb-3">${item.enName}</p>
+
+                        <!-- Technical Description -->
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            ${item.specsText}
+                        </p>
+
+                        <!-- Technical Pill Tags -->
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            ${item.tags.map(tag => `
+                                <span class="text-[11px] px-2.5 py-1 rounded-md bg-obsidian-900 text-cyanNeon border border-cyanNeon/20">
+                                    ${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Card Actions -->
+                    <div class="pt-4 border-t border-slate-800/80 flex items-center gap-2.5">
+                        <button onclick="openCadModal(${idx})" class="flex-1 bg-obsidian-900 hover:bg-cyanNeon hover:text-obsidian-950 text-cyanNeon border border-cyanNeon/40 font-bold py-2.5 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                            <span>دریافت کاتالوگ و نقشه فنی</span>
+                        </button>
+                        <button onclick="incrementB2BItem(${idx})" class="w-10 h-10 rounded-xl bg-brass/15 hover:bg-brass text-brass-light hover:text-obsidian-950 border border-brass/40 flex items-center justify-center transition-all" title="افزودن سریع به پیش‌فاکتور">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 3D Perspective Tilt Effect on Product Cards
+        function handleCardTilt(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        }
+
+        function resetCardTilt(card) {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+        }
+
+        /* =========================================================================
+           3. CAD BLUEPRINT MODAL LOGIC
+           ========================================================================= */
+        function openCadModal(productIndex) {
+            const item = abanProducts[productIndex];
+            document.getElementById('modal-title').innerText = item.name;
+            document.getElementById('modal-code').innerText = `CAD PART NO: ${item.code} | ${item.enName}`;
+            document.getElementById('modal-desc').innerText = item.specsText;
+            document.getElementById('modal-blueprint-svg').innerHTML = item.cadSvg;
+
+            document.getElementById('modal-specs-table').innerHTML = `
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">آلیاژ بدنه:</span>
+                    <span class="font-bold text-brass-light">برنج صنعتی MS58 (CuZn39Pb3)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">طول کل قطعه:</span>
+                    <span class="font-mono text-white" dir="ltr">${item.dimensions.length}</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">سایز دنده و رزوه:</span>
+                    <span class="font-mono text-cyanNeon" dir="ltr">${item.dimensions.threadIn} / ${item.dimensions.threadOut}</span>
+                </div>
+                <div class="flex justify-between py-1">
+                    <span class="text-slate-400">وزن خالص واحد:</span>
+                    <span class="font-mono text-white">${item.weightKg} کیلوگرم</span>
+                </div>
+            `;
+
+            const addBtn = document.getElementById('modal-add-b2b');
+            addBtn.onclick = () => {
+                incrementB2BItem(productIndex, 5);
+                closeCadModal();
+                scrollToSection('b2b-order');
+            };
+
+            const modal = document.getElementById('cad-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCadModal() {
+            const modal = document.getElementById('cad-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        /* =========================================================================
+           4. B2B PRE-INVOICE CALCULATOR LOGIC
+           ========================================================================= */
+        function renderB2BCalculator() {
+            const container = document.getElementById('b2b-items-container');
+            container.innerHTML = abanProducts.map((item, idx) => `
+                <div class="glass-panel p-3.5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-slate-800 hover:border-cyanNeon/30 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-brass/15 border border-brass/40 text-brass-light font-mono text-xs flex items-center justify-center font-bold">
+                            0${idx + 1}
+                        </span>
+                        <div>
+                            <div class="text-xs sm:text-sm font-bold text-white">${item.name}</div>
+                            <div class="text-[11px] text-slate-400 font-mono">${item.code} | وزن واحد: ${item.weightKg} kg</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 self-end sm:self-center">
+                        <button onclick="updateB2BQty(${idx}, -5)" class="w-8 h-8 rounded-lg bg-obsidian-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold">-5</button>
+                        <input type="number" min="0" value="${b2bQuantities[idx]}" onchange="setB2BQty(${idx}, this.value)"
+                               class="w-16 bg-obsidian-950 border border-cyanNeon/30 rounded-lg py-1.5 text-center text-xs font-mono font-bold text-cyanNeon outline-none">
+                        <button onclick="updateB2BQty(${idx}, 5)" class="w-8 h-8 rounded-lg bg-obsidian-900 hover:bg-cyanNeon/20 text-cyanNeon border border-cyanNeon/30 text-xs font-bold">+5</button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateB2BSummary();
+        }
+
+        function updateB2BQty(idx, delta) {
+            b2bQuantities[idx] = Math.max(0, (b2bQuantities[idx] || 0) + delta);
+            renderB2BCalculator();
+        }
+
+        function setB2BQty(idx, val) {
+            b2bQuantities[idx] = Math.max(0, parseInt(val, 10) || 0);
+            renderB2BCalculator();
+        }
+
+        function incrementB2BItem(idx, amount = 5) {
+            b2bQuantities[idx] = (b2bQuantities[idx] || 0) + amount;
+            renderB2BCalculator();
+        }
+
+        function resetB2BCart() {
+            Object.keys(b2bQuantities).forEach(k => b2bQuantities[k] = 0);
+            renderB2BCalculator();
+        }
+
+        function updateB2BSummary() {
+            const summaryList = document.getElementById('invoice-summary-list');
+            let totalPieces = 0;
+            let totalWeight = 0;
+            let rowsHtml = '';
+
+            abanProducts.forEach((item, idx) => {
+                const qty = b2bQuantities[idx] || 0;
+                if (qty > 0) {
+                    totalPieces += qty;
+                    const itemWeight = qty * item.weightKg;
+                    totalWeight += itemWeight;
+                    rowsHtml += `
+                        <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/70 last:border-0">
+                            <span class="text-slate-200 font-medium">${item.name}</span>
+                            <div class="flex items-center gap-3 font-mono">
+                                <span class="text-cyanNeon">${qty} عدد</span>
+                                <span class="text-slate-500 text-[11px]">(${itemWeight.toFixed(1)} kg)</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            summaryList.innerHTML = rowsHtml || `<div class="text-center text-xs text-slate-500 py-6">هیچ قطعه‌ای در لیست انتخاب نشده است.</div>`;
+            document.getElementById('total-pieces-count').innerText = totalPieces;
+            document.getElementById('total-brass-weight').innerText = totalWeight.toFixed(2);
+
+            const navBadge = document.getElementById('nav-cart-badge');
+            if (totalPieces > 0) {
+                navBadge.innerText = totalPieces;
+                navBadge.classList.remove('hidden');
+            } else {
+                navBadge.classList.add('hidden');
+            }
+        }
+
+        function generateOfficialPreInvoice() {
+            const name = document.getElementById('buyer-name').value.trim() || 'مشتری گرامی (همکار تأسیساتی)';
+            const phone = document.getElementById('buyer-phone').value.trim() || 'ثبت نشده';
+            const city = document.getElementById('buyer-city').value.trim() || 'تهران / سراسر کشور';
+
+            let totalPieces = 0;
+            let totalWeight = 0;
+            let lines = [];
+
+            abanProducts.forEach((item, idx) => {
+                const qty = b2bQuantities[idx] || 0;
+                if (qty > 0) {
+                    totalPieces += qty;
+                    const w = qty * item.weightKg;
+                    totalWeight += w;
+                    lines.push(`▪ ${item.name} [${item.code}] : ${qty} عدد (وزن برنج: ${w.toFixed(2)} kg)`);
+                }
+            });
+
+            if (lines.length === 0) {
+                lines.push('▪ لطفاً حداقل یک ردیف محصول را جهت استعلام انتخاب فرمایید.');
+            }
+
+            const invoiceText = 
+`=============================================
+   برگ استعلام و پیش‌فاکتور رسمی آبان کلکتور
+   ABAN COLLECTOR INDUSTRIAL MANUFACTURING
+=============================================
+خریدار / پروژه : ${name}
+شماره تماس    : ${phone}
+مقصد ارسال    : ${city}
+متریال ساخت   : ۱۰۰٪ شمش برنج اکستروژن MS58 (تراش CNC)
+---------------------------------------------
+لیست اقلام درخواستی:
+${lines.join('\n')}
+---------------------------------------------
+جمع کل قطعات : ${totalPieces} عدد
+وزن خالص برنج : ${totalWeight.toFixed(2)} کیلوگرم
+استاندارد تست : ۱۶ بار فشار هیدرواستاتیک | گارانتی مادام‌العمر
+=============================================`;
+
+            document.getElementById('invoice-text-output').value = invoiceText;
+            document.getElementById('copy-toast').classList.add('hidden');
+            const modal = document.getElementById('invoice-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function copyInvoiceToClipboard() {
+            const textarea = document.getElementById('invoice-text-output');
+            textarea.select();
+            document.execCommand('copy');
+            document.getElementById('copy-toast').classList.remove('hidden');
+        }
+
+        function closeInvoiceModal() {
+            const modal = document.getElementById('invoice-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* =========================================================================
+           5. THREE.JS PROCEDURAL 3D MODULAR BRASS MANIFOLD (HERO VIEWPORT)
+           ========================================================================= */
+        let scene, camera, renderer, manifoldGroup;
+        let endCapGroup, unionNutGroup, valveHeadGroups = [], branchPortGroups = [];
+        let isExploded = false;
+        let isWireframe = false;
+        let isValveAnimating = false;
+        let valveAnimPhase = 0;
+
+        // Interactive Orbit State
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let targetRotation = { x: 0.22, y: -0.55 };
+        let currentRotation = { x: 0.22, y: -0.55 };
+        let cameraZoom = 11.5;
+
+        // Materials array for wireframe toggle
+        const allMaterials = [];
+
+        function initHero3DManifold() {
+            const container = document.getElementById('hero-3d-container');
+            const width = container.clientWidth || 600;
+            const height = container.clientHeight || 480;
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+            camera.position.set(0, 0.5, cameraZoom);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.25;
+            container.appendChild(renderer.domElement);
+
+            // --- LIGHTING SETUP (Warm Gold Reflections + Cyan/Petrol Rim Lights) ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            scene.add(ambientLight);
+
+            // Key Warm Studio Light for Brass Specular Highlights
+            const keyLight = new THREE.DirectionalLight(0xfff4d6, 2.2);
+            keyLight.position.set(6, 10, 8);
+            scene.add(keyLight);
+
+            // Electric Cyan Rim Light (Highlighting CNC Grooves)
+            const cyanRimLight = new THREE.PointLight(0x00c8e6, 3.2, 25);
+            cyanRimLight.position.set(-8, -5, 4);
+            scene.add(cyanRimLight);
+
+            // Petrol Blue Back Rim Light
+            const petrolBackLight = new THREE.DirectionalLight(0x0e86d4, 1.8);
+            petrolBackLight.position.set(0, -8, -6);
+            scene.add(petrolBackLight);
+
+            // ---SHARED PBR MATERIALS ---
+            const brassMaterial = new THREE.MeshStandardMaterial({
+                color: 0xd4af37,
+                metalness: 0.88,
+                roughness: 0.22
+            });
+
+            const darkGrooveBrassMat = new THREE.MeshStandardMaterial({
+                color: 0x9b7415,
+                metalness: 0.85,
+                roughness: 0.35
+            });
+
+            const redGlossMat = new THREE.MeshStandardMaterial({
+                color: 0xd91414,
+                metalness: 0.15,
+                roughness: 0.18
+            });
+
+            const epdmRubberMat = new THREE.MeshStandardMaterial({
+                color: 0x111317,
+                metalness: 0.05,
+                roughness: 0.75
+            });
+
+            allMaterials.push(brassMaterial, darkGrooveBrassMat, redGlossMat, epdmRubberMat);
+
+            // --- BUILD PROCEDURAL ABAN 6-PORT MODULAR BRASS MANIFOLD ---
+            manifoldGroup = new THREE.Group();
+            scene.add(manifoldGroup);
+
+            const bodyLength = 7.4;
+            const bodyRadius = 0.62;
+
+            // 1. Main Cylindrical Brass Pipe Body
+            const mainPipeGeo = new THREE.CylinderGeometry(bodyRadius, bodyRadius, bodyLength, 48);
+            mainPipeGeo.rotateZ(Math.PI / 2);
+            const mainPipeMesh = new THREE.Mesh(mainPipeGeo, brassMaterial);
+            manifoldGroup.add(mainPipeMesh);
+
+            // Inner Dark Bore Hole
+            const boreGeo = new THREE.CylinderGeometry(bodyRadius * 0.72, bodyRadius * 0.72, bodyLength + 0.05, 32);
+            boreGeo.rotateZ(Math.PI / 2);
+            const boreMesh = new THREE.Mesh(boreGeo, epdmRubberMat);
+            manifoldGroup.add(boreMesh);
+
+            // Step-Profile CNC Machined Grooves & Raised Rings along cylinder axis
+            const portXPositions = [-2.75, -1.65, -0.55, 0.55, 1.65, 2.75];
+            portXPositions.forEach((px) => {
+                // Raised reinforced boss ring around each port
+                const ringGeo = new THREE.CylinderGeometry(bodyRadius + 0.05, bodyRadius + 0.05, 0.52, 40);
+                ringGeo.rotateZ(Math.PI / 2);
+                const ringMesh = new THREE.Mesh(ringGeo, brassMaterial);
+                ringMesh.position.x = px;
+                manifoldGroup.add(ringMesh);
+
+                // Precision CNC lathed step grooves flanking each port
+                [-0.32, 0.32].forEach(offset => {
+                    const grooveGeo = new THREE.CylinderGeometry(bodyRadius + 0.01, bodyRadius + 0.01, 0.07, 40);
+                    grooveGeo.rotateZ(Math.PI / 2);
+                    const grooveMesh = new THREE.Mesh(grooveGeo, darkGrooveBrassMat);
+                    grooveMesh.position.x = px + offset;
+                    manifoldGroup.add(grooveMesh);
+                });
+            });
+
+            // 2. Six Threaded Outlet Branch Ports (Bottom 1/2" Nipples)
+            portXPositions.forEach((px) => {
+                const portGroup = new THREE.Group();
+                portGroup.position.set(px, -bodyRadius - 0.35, 0);
+
+                // Hex shoulder
+                const hexGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.25, 6);
+                const hexMesh = new THREE.Mesh(hexGeo, brassMaterial);
+                hexMesh.position.y = 0.2;
+                portGroup.add(hexMesh);
+
+                // Threaded male nozzle
+                const nozzleGeo = new THREE.CylinderGeometry(0.33, 0.33, 0.55, 32);
+                const nozzleMesh = new THREE.Mesh(nozzleGeo, darkGrooveBrassMat);
+                nozzleMesh.position.y = -0.15;
+                portGroup.add(nozzleMesh);
+
+                // Thread ridges (CNC pitch rings)
+                for (let t = 0; t < 4; t++) {
+                    const threadRingGeo = new THREE.TorusGeometry(0.335, 0.022, 12, 32);
+                    threadRingGeo.rotateX(Math.PI / 2);
+                    const threadRing = new THREE.Mesh(threadRingGeo, brassMaterial);
+                    threadRing.position.y = -0.02 - (t * 0.11);
+                    portGroup.add(threadRing);
+                }
+
+                // EPDM O-Ring at base of nipple
+                const oringGeo = new THREE.TorusGeometry(0.35, 0.045, 16, 32);
+                oringGeo.rotateX(Math.PI / 2);
+                const oringMesh = new THREE.Mesh(oringGeo, epdmRubberMat);
+                oringMesh.position.y = 0.06;
+                portGroup.add(oringMesh);
+
+                manifoldGroup.add(portGroup);
+                branchPortGroups.push(portGroup);
+            });
+
+            // 3. Top Mounted Brass Valve Headworks with Red Multi-Lobe Handwheels
+            portXPositions.forEach((px, idx) => {
+                const valveGroup = new THREE.Group();
+                valveGroup.position.set(px, bodyRadius + 0.3, 0);
+
+                // Brass Hex Bonnet
+                const bonnetGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.32, 6);
+                const bonnetMesh = new THREE.Mesh(bonnetGeo, brassMaterial);
+                valveGroup.add(bonnetMesh);
+
+                // Brass Spindle Stem
+                const stemGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.45, 24);
+                const stemMesh = new THREE.Mesh(stemGeo, brassMaterial);
+                stemMesh.position.y = 0.32;
+                valveGroup.add(stemMesh);
+
+                // High-Gloss Red Handwheel Group
+                const wheelGroup = new THREE.Group();
+                wheelGroup.position.y = 0.55;
+
+                const mainWheelGeo = new THREE.CylinderGeometry(0.44, 0.40, 0.24, 24);
+                const mainWheelMesh = new THREE.Mesh(mainWheelGeo, redGlossMat);
+                wheelGroup.add(mainWheelMesh);
+
+                // 6 Ergonomic Grip Lobes around the Red Handwheel
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i / 6) * Math.PI * 2;
+                    const lobeGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.25, 16);
+                    const lobeMesh = new THREE.Mesh(lobeGeo, redGlossMat);
+                    lobeMesh.position.set(Math.cos(angle) * 0.41, 0, Math.sin(angle) * 0.41);
+                    wheelGroup.add(lobeMesh);
+                }
+
+                // Top Brass Cap Nut on Handwheel
+                const capNutGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.06, 16);
+                const capNutMesh = new THREE.Mesh(capNutGeo, brassMaterial);
+                capNutMesh.position.y = 0.13;
+                wheelGroup.add(capNutMesh);
+
+                valveGroup.add(wheelGroup);
+                valveGroup.userData = { wheelGroup, basePosY: bodyRadius + 0.3, phaseOffset: idx * 0.6 };
+
+                manifoldGroup.add(valveGroup);
+                valveHeadGroups.push(valveGroup);
+            });
+
+            // 4. Left End: Brass Manifold End Cap with EPDM O-Ring (درپوش کلکتور اورینگ‌دار)
+            endCapGroup = new THREE.Group();
+            endCapGroup.position.set(-bodyLength / 2 - 0.32, 0, 0);
+
+            const capHexGeo = new THREE.CylinderGeometry(0.72, 0.72, 0.38, 6);
+            capHexGeo.rotateZ(Math.PI / 2);
+            const capHexMesh = new THREE.Mesh(capHexGeo, brassMaterial);
+            endCapGroup.add(capHexMesh);
+
+            const capThreadGeo = new THREE.CylinderGeometry(0.54, 0.54, 0.45, 32);
+            capThreadGeo.rotateZ(Math.PI / 2);
+            const capThreadMesh = new THREE.Mesh(capThreadGeo, darkGrooveBrassMat);
+            capThreadMesh.position.x = 0.35;
+            endCapGroup.add(capThreadMesh);
+
+            const capOringGeo = new THREE.TorusGeometry(0.58, 0.065, 16, 40);
+            capOringGeo.rotateY(Math.PI / 2);
+            const capOringMesh = new THREE.Mesh(capOringGeo, epdmRubberMat);
+            capOringMesh.position.x = 0.21;
+            endCapGroup.add(capOringMesh);
+
+            manifoldGroup.add(endCapGroup);
+
+            // 5. Right End: Heavy Brass Union Fitting (مهره‌ماسوره برنجی ترکیبی)
+            unionNutGroup = new THREE.Group();
+            unionNutGroup.position.set(bodyLength / 2 + 0.38, 0, 0);
+
+            const unionHexGeo = new THREE.CylinderGeometry(0.84, 0.84, 0.55, 6);
+            unionHexGeo.rotateZ(Math.PI / 2);
+            const unionHexMesh = new THREE.Mesh(unionHexGeo, brassMaterial);
+            unionNutGroup.add(unionHexMesh);
+
+            const tailpieceGeo = new THREE.CylinderGeometry(0.58, 0.52, 0.5, 32);
+            tailpieceGeo.rotateZ(Math.PI / 2);
+            const tailpieceMesh = new THREE.Mesh(tailpieceGeo, darkGrooveBrassMat);
+            tailpieceMesh.position.x = 0.42;
+            unionNutGroup.add(tailpieceMesh);
+
+            const unionOringGeo = new THREE.TorusGeometry(0.60, 0.06, 16, 40);
+            unionOringGeo.rotateY(Math.PI / 2);
+            const unionOringMesh = new THREE.Mesh(unionOringGeo, epdmRubberMat);
+            unionOringMesh.position.x = -0.25;
+            unionNutGroup.add(unionOringMesh);
+
+            manifoldGroup.add(unionNutGroup);
+
+            // --- MOUSE & TOUCH ORBIT CONTROLS ---
+            const domElem = renderer.domElement;
+
+            domElem.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                targetRotation.y += deltaX * 0.008;
+                targetRotation.x = Math.max(-1.2, Math.min(1.2, targetRotation.x + deltaY * 0.008));
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            // Touch Support for Mobile/Tablet
+            domElem.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - previousMousePosition.x;
+                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+                targetRotation.y += deltaX * 0.009;
+                targetRotation.x = Math.max(-1.2, Math.min(1.2, targetRotation.x + deltaY * 0.009));
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, { passive: true });
+
+            // Responsive Resize Listener
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('hero-3d-container');
+            if (!container || !renderer || !camera) return;
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+
+        // Interactive 3D Toolbar Actions
+        function toggleExplodedView() {
+            isExploded = !isExploded;
+            const btn = document.getElementById('btn-explode');
+            btn.classList.toggle('bg-cyanNeon', isExploded);
+            btn.classList.toggle('text-obsidian-950', isExploded);
+
+            if (isExploded) {
+                updateCallout("حالت نمای انفجاری (Exploded CAD View)", "جداسازی ۵ قطعه اصلی کلکتور آبان", "مشاهده دقیق اورینگ‌های EPDM، رزوه‌های نری روپیچ‌ها، درپوش انتهایی و مکانیزم مغزی شیر فلکه.");
+            } else {
+                updateCallout("نمای مونتاژ کامل کلکتور", "کلکتور ۶ راهه + شیر فلکه + درپوش و مهره‌ماسوره", "شامل لوله اصلی شیاردار، ۶ خروجی ۱/۲ اینچ، مغزی شیر دسته قرمز و درپوش اورینگ‌دار.");
+            }
+        }
+
+        function toggleWireframeView() {
+            isWireframe = !isWireframe;
+            allMaterials.forEach(mat => { mat.wireframe = isWireframe; });
+            const btn = document.getElementById('btn-wireframe');
+            btn.classList.toggle('bg-brass', isWireframe);
+            btn.classList.toggle('text-obsidian-950', isWireframe);
+        }
+
+        function toggleValveOperation() {
+            isValveAnimating = !isValveAnimating;
+            const btn = document.getElementById('btn-valve');
+            btn.classList.toggle('bg-red-600', isValveAnimating);
+            btn.classList.toggle('text-white', isValveAnimating);
+            if (isValveAnimating) {
+                updateCallout("شبیه‌سازی عملکرد شیر فلکه کلکتور", "چرخش نرم شفت برنجی و هندل پلی‌آمید قرمز", "آب‌بندی دوگانه با اورینگ نیتریل برای تنظیم دقیق دبی هر مدار گرمایش از کف یا لوله‌کشی.");
+            }
+        }
+
+        function resetHeroCamera() {
+            targetRotation = { x: 0.22, y: -0.55 };
+            isExploded = false;
+            isWireframe = false;
+            isValveAnimating = false;
+            allMaterials.forEach(mat => { mat.wireframe = false; });
+        }
+
+        function updateCallout(tag, title, desc) {
+            document.getElementById('callout-tag').innerText = tag;
+            document.getElementById('callout-title').innerText = title;
+            document.getElementById('callout-desc').innerText = desc;
+        }
+
+        // Main Animation Loop
+        function animateHero3D() {
+            requestAnimationFrame(animateHero3D);
+
+            if (manifoldGroup) {
+                // Gentle auto-rotation when user is not dragging
+                if (!isDragging) {
+                    targetRotation.y += 0.0022;
+                }
+
+                // Smooth damping interpolation
+                currentRotation.x += (targetRotation.x - currentRotation.x) * 0.08;
+                currentRotation.y += (targetRotation.y - currentRotation.y) * 0.08;
+
+                manifoldGroup.rotation.x = currentRotation.x;
+                manifoldGroup.rotation.y = currentRotation.y;
+
+                // Smooth Exploded View Interpolation
+                const targetCapX = isExploded ? (-3.7 - 1.35) : (-3.7 - 0.32);
+                endCapGroup.position.x += (targetCapX - endCapGroup.position.x) * 0.08;
+
+                const targetUnionX = isExploded ? (3.7 + 1.45) : (3.7 + 0.38);
+                unionNutGroup.position.x += (targetUnionX - unionNutGroup.position.x) * 0.08;
+
+                branchPortGroups.forEach(port => {
+                    const targetPortY = isExploded ? -1.85 : -0.97;
+                    port.position.y += (targetPortY - port.position.y) * 0.08;
+                });
+
+                valveAnimPhase += 0.05;
+                valveHeadGroups.forEach((vGroup) => {
+                    const baseTargetY = isExploded ? 1.85 : vGroup.userData.basePosY;
+                    const liftOffset = isValveAnimating ? Math.sin(valveAnimPhase + vGroup.userData.phaseOffset) * 0.14 : 0;
+                    vGroup.position.y += ((baseTargetY + liftOffset) - vGroup.position.y) * 0.1;
+
+                    if (isValveAnimating || isExploded) {
+                        vGroup.userData.wheelGroup.rotation.y += 0.06;
+                    }
+                });
+            }
+
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        /* =========================================================================
+           6. INITIALIZE APPLICATION ON WINDOW LOAD
+           ========================================================================= */
+        window.onload = function () {
+            renderProductsShowcase();
+            renderB2BCalculator();
+            initHero3DManifold();
+            animateHero3D();
+        };
+    </script>
+</body>
+</html>
